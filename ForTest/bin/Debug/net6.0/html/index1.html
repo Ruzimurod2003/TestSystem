@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/site.css">
+</head>
+
+<body>
+	<div>
+		
+     <h2>Основные операции с данными. CRUD</h2>
+	
+
+	<div style="margin-top:23px;margin-left:5px;">
+				<style>
+		.footer-adaptive { width:100%; height: 250px; }
+		@media(min-width: 760px) { .footer-adaptive { max-width: 728px; height: 90px;  } }
+		@media(min-width: 900px) { .footer-adaptive { max-width: 468px; height: 60px;  } }
+		@media(min-width: 1100px) { .footer-adaptive{ max-width: 728px; height: 90px;} }
+		@media(min-width: 1400px) { .footer-adaptive { max-width: 970px; height: 90px;} }
+		</style>
+		<!-- footer_adaptive -->
+		
+		<script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<script>
+		(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+			</div>
+
+	<p>Большинство операций с данными так или иначе представляют собой CRUD операции (Create, Read, Update, Delete), то есть создание, получение, обновление и 
+удаление. Entity Framework Core позволяет легко выполнять все эти действия.</p>
+<p>Для примера создадим проект по типу <span class="b">Console App (.NET Core)</span>. И после создания проекта сразу добавим в него 
+функциональность EF Core. Для этого в проект через NuGet пакет <span class="b">Microsoft.EntityFrameworkCore.SqlServer</span>.<p>
+<p>Затем добавим в проект класс User, объекты которого будут храниться в базе данных:</p>
+<pre class="brush:c#;">
+public class User
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public int Age { get; set; }
+}
+</pre>
+<p>И добавим класс контекста данных ApplicationContext:</p>
+<pre class="brush:c#;">
+using Microsoft.EntityFrameworkCore;
+
+namespace HelloApp
+{
+    public class ApplicationContext : DbContext
+    {
+        public DbSet&lt;User&gt; Users { get; set; }
+		public ApplicationContext()
+        {
+            Database.EnsureCreated();
+        }
+		
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=helloappdb;Trusted_Connection=True;");
+        }
+    }
+}
+</pre>
+<p>Далее определим в классе Program все базовые операции с данными:</p>
+<pre class="brush:c#;">
+using System;
+using System.Linq;
+
+namespace HelloApp
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            // Добавление
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                User user1 = new User { Name = "Tom", Age = 33 };
+                User user2 = new User { Name = "Alice", Age = 26 };
+
+                // Добавление
+                db.Users.Add(user1);
+                db.Users.Add(user2);
+                db.SaveChanges();
+            }
+
+            // получение
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                // получаем объекты из бд и выводим на консоль
+                var users = db.Users.ToList();
+                Console.WriteLine("Данные после добавления:");
+                foreach (User u in users)
+                {
+                    Console.WriteLine($"{u.Id}.{u.Name} - {u.Age}");
+                }
+            }
+
+            // Редактирование
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                // получаем первый объект
+                User user = db.Users.FirstOrDefault();
+                if(user!=null)
+                {
+                    user.Name = "Bob";
+                    user.Age = 44;
+                    //обновляем объект
+                    //db.Users.Update(user);
+                    db.SaveChanges();
+                }
+                // выводим данные после обновления
+                Console.WriteLine("\nДанные после редактирования:");
+                var users = db.Users.ToList();
+                foreach (User u in users)
+                {
+                    Console.WriteLine($"{u.Id}.{u.Name} - {u.Age}");
+                }
+            }
+
+            // Удаление
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                // получаем первый объект
+                User user = db.Users.FirstOrDefault();
+                if (user != null)
+                {
+                    //удаляем объект
+                    db.Users.Remove(user);
+                    db.SaveChanges();
+                }
+                // выводим данные после обновления
+                Console.WriteLine("\nДанные после удаления:");
+                var users = db.Users.ToList();
+                foreach (User u in users)
+                {
+                    Console.WriteLine($"{u.Id}.{u.Name} - {u.Age}");
+                }
+            }
+            Console.Read();
+        }
+    }
+}
+</pre>
+<p>И после выполнения мы получим следующий консольный вывод:</p>
+<div class="console">
+<pre class="consoletext">
+Данные после добавления
+1.Tom - 33
+2.Alice - 26
+
+Данные после редактирования
+1.Bob - 44
+2.Alice - 26
+
+Данные после удаления
+2.Alice - 26
+</pre>
+</div>
+<h3>Добавление</h3>
+<p>Для добавления объекта используется метод <span class="b">Add</span>, определенный у класса DbSet, в который передается добавляемый объект:</p>
+<pre class="brush:c#;">
+db.Users.Add(user2);
+db.SaveChanges();
+</pre>
+<p>Метод Add устанавливает значение Added в качестве состояния нового объекта. Поэтому метод db.SaveChanges() сгенерирует выражение INSERT для вставки модели в таблицу.</p>
+<p>Если нам надо добавить сразу несколько объектов, то мы можем воспользоваться методом <span class="b">AddRange()</span>:</p>
+<pre class="brush:c#;">
+User user1 = new User { Name = "Tom", Age = 33 };
+User user2 = new User { Name = "Alice", Age = 26 };
+db.Users.AddRange(user1, user2);
+</pre>
+<h3>Удаление</h3>
+<p>Удаление производится с помощью метода <span class="b">Remove</span>:</p>
+<pre class="brush:c#;">
+db.Users.Remove(user);
+db.SaveChanges();
+</pre>
+<p>Данный метод установит статус объекта в Deleted, благодаря чему Entity Framework при выполнении метода db.SaveChanges() сгенерирует SQL-выражение DELETE.</p>
+<p>Если необходимо удалить сразу несколько объектов, то можно использовать метод <span class="b">RemoveRange()</span>:</p>
+<pre class="brush:c#;">
+User user1 = db.Users.FirstOrDefault();
+User user2 = db.Users.LastOrDefault();
+db.Users.RemoveRange(user1, user2);
+</pre>
+<h3>Редактирование</h3>
+<p>При изменении объекта Entity Framework сам отслеживает все изменения, и когда вызывается метод <span class="b">SaveChanges()</span>, 
+будет сформировано SQL-выражение UPDATE для данного объекта, которое обновит объект в базе данных.</p>
+<p>Но надо отметить, что в данном случае действие контекста данных ограничивается пределами конструкции using. Но рассмотрим другой пример. Мы получаем объект в одном месте,а  обновляем в другом. 
+Например:</p>
+<pre class="brush:c#;">
+User user = null;
+using (ApplicationContext db = new ApplicationContext())
+{
+	// получаем объект
+    user = db.Users.FirstOrDefault();
+    Console.WriteLine("Данные до редактирования:");
+    var users = db.Users.ToList();
+    foreach (User u in users)
+    {
+        Console.WriteLine($"{u.Id}.{u.Name} - {u.Age}");
+    }
+}
+//...................
+
+// Редактирование
+using (ApplicationContext db = new ApplicationContext())
+{
+    // Редактирование
+    if (user != null)
+    {
+        user.Name = "Sam";
+        user.Age = 33;
+    }
+    db.SaveChanges();
+    // выводим данные после обновления
+    Console.WriteLine("\nДанные после редактирования:");
+    var users = db.Users.ToList();
+    foreach (var u in users)
+    {
+        Console.WriteLine($"{u.Id}.{u.Name} - {u.Age}");
+    }
+}
+</pre>
+<p>Несмотря на то, что объект user не равен null, имеется в базе данных, но во втором блоке using обновления соответствующего объекта в БД не произойдет. И в этом 
+случае нам надо использовать метод Update:</p>
+<pre class="brush:c#;">
+// Редактирование
+using (ApplicationContext db = new ApplicationContext())
+{
+    // Редактирование
+    if (user != null)
+    {
+        user.Name = "Sam";
+        user.Age = 33;
+		db.Users.Update(user);
+    }
+    db.SaveChanges();
+    // выводим данные после обновления
+    Console.WriteLine("\nДанные после редактирования:");
+    var users = db.Users.ToList();
+    foreach (var u in users)
+    {
+        Console.WriteLine($"{u.Id}.{u.Name} - {u.Age}");
+    }
+}
+</pre>
+<p>При необходимости обновить одновременно несколько объектов, применяется метод <span class="b">UpdateRange()</span>:</p>
+<pre class="brush:c#;">
+db.Users.UpdateRange(user1, user2);
+</pre>
+	
+	
+
+	
+	
+
+	<style>
+	.commentABl { margin: 25px 0px 15px 0px;}
+	@media(min-width: 1000px) { .commentABl { margin: 35px 10px 15px 15px;  } }
+	</style>
+	<div class="commentABl" style="clear:both;">
+		<ins class="adsbygoogle metanit-rect" style="display:inline-block" data-ad-client="ca-pub-3716042175333627" data-ad-slot="3119477283"></ins>
+	<script>
+	(adsbygoogle = window.adsbygoogle || []).push({});
+	</script>
+		</div>
+
+		<script>const ap = 1412856534;</script>
+	<script async="" type='text/javascript' src='//metanit.com/js/lisrc4.js'></script>
+	
+	
+	<script type="text/javascript">
+	var disqus_shortname = 'metanitcom';
+	(function() {
+	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	})();
+	</script>
+
+  
+	</div>
+</body>
+
+</html>

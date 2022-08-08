@@ -1,0 +1,6 @@
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\ForTest\bin\Release\net6.0\publish\ForTest.exe
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\ForTest\bin\Release\net6.0\publish\ForTest.dll
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\ForTest\bin\Release\net6.0\publish\ForTest.deps.json
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\ForTest\bin\Release\net6.0\publish\ForTest.runtimeconfig.json
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\ForTest\bin\Release\net6.0\publish\ForTest.pdb
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\ForTest\bin\Release\net6.0\publish\HtmlAgilityPack.dll

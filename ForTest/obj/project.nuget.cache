@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "M5phJGtexLDc9d6gKZVTJhKve/UcoRSUXiE5hMjRSd0tkUYLpqU+wHtwLYrMIfCRjTD4bJzC8tWQcYm3X9gfYw==",
+  "success": true,
+  "projectFilePath": "D:\\Ruzimurod\\Projects\\ASP.Net Core\\TestSystem\\ForTest\\ForTest.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\user\\.nuget\\packages\\htmlagilitypack\\1.11.43\\htmlagilitypack.1.11.43.nupkg.sha512"
+  ],
+  "logs": []
+}

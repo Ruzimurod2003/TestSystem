@@ -1,0 +1,17 @@
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\ForTest\bin\Debug\net6.0\ForTest.exe
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\ForTest\bin\Debug\net6.0\ForTest.deps.json
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\ForTest\bin\Debug\net6.0\ForTest.runtimeconfig.json
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\ForTest\bin\Debug\net6.0\ForTest.dll
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\ForTest\bin\Debug\net6.0\ForTest.pdb
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\ForTest\obj\Debug\net6.0\ForTest.csproj.AssemblyReference.cache
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\ForTest\obj\Debug\net6.0\ForTest.GeneratedMSBuildEditorConfig.editorconfig
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\ForTest\obj\Debug\net6.0\ForTest.AssemblyInfoInputs.cache
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\ForTest\obj\Debug\net6.0\ForTest.AssemblyInfo.cs
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\ForTest\obj\Debug\net6.0\ForTest.csproj.CoreCompileInputs.cache
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\ForTest\obj\Debug\net6.0\ForTest.dll
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\ForTest\obj\Debug\net6.0\refint\ForTest.dll
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\ForTest\obj\Debug\net6.0\ForTest.pdb
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\ForTest\obj\Debug\net6.0\ForTest.genruntimeconfig.cache
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\ForTest\obj\Debug\net6.0\ref\ForTest.dll
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\ForTest\obj\Debug\net6.0\ForTest.csproj.CopyComplete
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\ForTest\bin\Debug\net6.0\HtmlAgilityPack.dll

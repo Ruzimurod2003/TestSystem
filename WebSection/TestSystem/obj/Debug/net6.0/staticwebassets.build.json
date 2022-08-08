@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "Hash": "wBJnRrjT14PMBoZmpMtmnIP7S20FO270wt7b1aYrVBY=",
+  "Source": "TestSystem",
+  "BasePath": "_content/TestSystem",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "TestSystem\\wwwroot",
+      "Source": "TestSystem",
+      "ContentRoot": "D:\\Ruzimurod\\Projects\\ASP.Net Core\\TestSystem\\WebSection\\TestSystem\\wwwroot\\",
+      "BasePath": "_content/TestSystem",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "D:\\Ruzimurod\\Projects\\ASP.Net Core\\TestSystem\\WebSection\\TestSystem\\wwwroot\\css\\bootswatch.css",
+      "SourceId": "TestSystem",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Ruzimurod\\Projects\\ASP.Net Core\\TestSystem\\WebSection\\TestSystem\\wwwroot\\",
+      "BasePath": "_content/TestSystem",
+      "RelativePath": "css/bootswatch.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\bootswatch.css"
+    }
+  ]
+}

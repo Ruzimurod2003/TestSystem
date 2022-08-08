@@ -1,0 +1,39 @@
+﻿@model TestCreatorViewModel;
+<div class="form-group">
+    <form asp-action="Index" asp-controller="TestCreator" method="post">
+        <div class="form-control">
+            <label asp-for="DepartmentName">Qaysi bo'lim</label>
+            <select asp-for="DepartmentName">
+                <option>Bo'limni tanlang</option>
+                @foreach (var item in Model.DepartmentNames ?? new List<string> { "Matematika", "Fizika", "Kimyo" })
+                {
+                    <option>@item</option>
+                }
+            </select>
+        </div>
+        <div class="form-control">
+            <input asp-for="ProblemAnsver" />
+        </div>
+        <div class="form-control">
+            <input asp-for="FirstSolution" />
+            <input asp-for="SecondSolution" />
+            <input asp-for="ThirdSolution" />
+            <input asp-for="FourthSolution" />
+        </div>
+        <div class="form-control">
+            <select asp-for="Solution">
+                <option>First</option>
+                <option>Second</option>
+                <option>Third</option>
+                <option>Fourth</option>
+            </select>
+        </div>
+        <div class="form-control">
+            <textarea asp-for="ProblemDescription"></textarea>
+        </div>
+        <button type="submit">Create</button>
+    </form>
+
+    <form asp-action="Create" asp-controller="TestCreator" method="post">
+    </form>
+</div>

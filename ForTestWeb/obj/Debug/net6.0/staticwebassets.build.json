@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "Hash": "qO7ujxuZFgzsDO6qtnxZYLTCgDFXd9lSXlTDuW2Zp3Q=",
+  "Source": "ForTestWeb",
+  "BasePath": "_content/ForTestWeb",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "ForTestWeb\\wwwroot",
+      "Source": "ForTestWeb",
+      "ContentRoot": "D:\\Ruzimurod\\Projects\\ASP.Net Core\\TestSystem\\ForTestWeb\\wwwroot\\",
+      "BasePath": "_content/ForTestWeb",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "D:\\Ruzimurod\\Projects\\ASP.Net Core\\TestSystem\\ForTestWeb\\wwwroot\\bootstrap.min.css",
+      "SourceId": "ForTestWeb",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Ruzimurod\\Projects\\ASP.Net Core\\TestSystem\\ForTestWeb\\wwwroot\\",
+      "BasePath": "_content/ForTestWeb",
+      "RelativePath": "bootstrap.min.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\bootstrap.min.css"
+    },
+    {
+      "Identity": "D:\\Ruzimurod\\Projects\\ASP.Net Core\\TestSystem\\ForTestWeb\\wwwroot\\index.html",
+      "SourceId": "ForTestWeb",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Ruzimurod\\Projects\\ASP.Net Core\\TestSystem\\ForTestWeb\\wwwroot\\",
+      "BasePath": "_content/ForTestWeb",
+      "RelativePath": "index.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\index.html"
+    }
+  ]
+}

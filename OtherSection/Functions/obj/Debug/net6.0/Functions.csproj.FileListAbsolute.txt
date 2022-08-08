@@ -1,0 +1,15 @@
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\OtherSection\Functions\obj\Debug\net6.0\Functions.csproj.AssemblyReference.cache
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\OtherSection\Functions\obj\Debug\net6.0\Functions.GeneratedMSBuildEditorConfig.editorconfig
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\OtherSection\Functions\obj\Debug\net6.0\Functions.AssemblyInfoInputs.cache
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\OtherSection\Functions\obj\Debug\net6.0\Functions.AssemblyInfo.cs
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\OtherSection\Functions\obj\Debug\net6.0\Functions.csproj.CoreCompileInputs.cache
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\OtherSection\Functions\bin\Debug\net6.0\Functions.deps.json
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\OtherSection\Functions\bin\Debug\net6.0\Functions.dll
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\OtherSection\Functions\bin\Debug\net6.0\Functions.pdb
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\OtherSection\Functions\bin\Debug\net6.0\Models.dll
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\OtherSection\Functions\bin\Debug\net6.0\Models.pdb
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\OtherSection\Functions\obj\Debug\net6.0\Functions.csproj.CopyComplete
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\OtherSection\Functions\obj\Debug\net6.0\Functions.dll
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\OtherSection\Functions\obj\Debug\net6.0\refint\Functions.dll
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\OtherSection\Functions\obj\Debug\net6.0\Functions.pdb
+D:\Ruzimurod\Projects\ASP.Net Core\TestSystem\OtherSection\Functions\obj\Debug\net6.0\ref\Functions.dll

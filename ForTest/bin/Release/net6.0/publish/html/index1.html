@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/site.css">
+</head>
+
+<body>
+	<div>
+		
+     <h2>Конвейер обработки запроса и middleware</h2>
+	
+
+	<div style="margin-top:23px;margin-left:5px;">
+				<style>
+		.footer-adaptive { width:100%; height: 250px; }
+		@media(min-width: 760px) { .footer-adaptive { max-width: 728px; height: 90px;  } }
+		@media(min-width: 900px) { .footer-adaptive { max-width: 468px; height: 60px;  } }
+		@media(min-width: 1100px) { .footer-adaptive{ max-width: 728px; height: 90px;} }
+		@media(min-width: 1400px) { .footer-adaptive { max-width: 970px; height: 90px;} }
+		</style>
+		<!-- footer_adaptive -->
+		
+		<script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<script>
+		(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+			</div>
+
+	<p>Обработка запроса в ASP.NET Core устроена по принципу конвейера. Сначала данные запроса получает первый компонент в конвейере. 
+После обработки он передает данные HTTP-запроса второму компоненту и так далее. Эти компоненты конвейера, которые отвечают за обработку запроса, 
+называются <span class="b">middleware</span>. В ASP.NET Core для подключения компонентов middleware используется метод Configure из класса Startup.</p>
+<p>Компонент middleware может либо передать запрос далее следующему в конвейере компоненту, либо выполнить обработку и закончить работу 
+конвейера. Также компонент middleware в конвейере может выполнять обработку запроса как до, так и после следующего в конвейере компонента.</p>
+<p>Компоненты middleware конфигурируются с помощью методов расширений <code>Run</code>, <code>Map</code> и <code>Use</code> объекта 
+<span class="b">IApplicationBuilder</span>, который передается в метод <code>Configure()</code> класса Startup. 
+Каждый компонент может быть определен как анонимный метод (встроенный inline компонент), либо может быть вынесен в отдельный класс.</p>
+<p>Для создания компонентов middleware используется делегат RequestDelegate, который выполняет некоторое действие и принимает контекст запроса:</p>
+<pre class="brush:c#;">public delegate Task RequestDelegate(HttpContext context);</pre>
+<p>Рассмотрим метод Configure из класса Startup стандартного проекта по типу Empty:</p>
+<pre class="brush:c#;">
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+    // если проект в процессе разработки
+    if (env.IsDevelopment())
+    {
+        app.UseDeveloperExceptionPage();
+    }
+	app.UseRouting();
+
+	app.UseEndpoints(endpoints =&gt;
+	{
+		endpoints.MapGet("/", async context =&gt;
+		{
+			await context.Response.WriteAsync("Hello World!");
+		});
+	});
+}
+</pre>
+<p>Все вызовы типа <code>app.UseXXX</code> как раз и представляют собой добавление компонентов middleware для обработки запроса. 
+То есть у нас получается примерно следующий конвейер обработки:</p>
+<ol>
+<li><p>Компонент обработки ошибок - Diagnostics. Добавляется через <code>app.UseDeveloperExceptionPage()</code></p></li>
+<li><p>Компонент маршрутизации - EndpointRoutingMiddleware. Добавляется через <code>app.UseRouting()</code></p></li>
+<li><p>Компонент EndpointMiddleware, который отправляет ответ, если запрос пришел по маршруту "/" (то есть пользователь обратился к корню веб-приложения). 
+ Добавляется через метод <code>app.UseEndpoints()</code></p></li>
+</ol>
+<p>При этом порядок определения компонентов играет большую роль. Например, в этом методе сначала добавляются компоненты для встраивания механизма 
+маршрутизации <code>app.UseRouting()</code>, а потом только компонент для обработки запроса по определенному маршруту <code>app.UseEndpoints()</code>. 
+Если мы изменим порядок, то приложение нормально работать не будет:</p>
+<pre class="brush:c#;">
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+    // если проект в процессе разработки
+    if (env.IsDevelopment())
+    {
+        app.UseDeveloperExceptionPage();
+    }
+	app.UseEndpoints(endpoints =&gt;
+	{
+		endpoints.MapGet("/", async context =&gt;
+		{
+			await context.Response.WriteAsync("Hello World!");
+		});
+	});
+	app.UseRouting();
+}
+</pre>
+<p>В этом случае мы получим исключение, так как для работы компонента EndpointMiddleware необходимо, чтобы в приложении уже была определена система маршрутизации с 
+помощью компонента EndpointRoutingMiddleware. Поэтому в конвейер нужно сначала добавлять EndpointRoutingMiddleware (app.UseRouting()) и только потом 
+EndpointMiddleware (app.UseEndpoints()).</p>
+<p>По умолчанию ASP.NET Core предоставляет следующие встроенные компоненты middleware:</p>
+<ul>
+<li><p><code>Authentication</code>: предоставляет поддержку аутентификации</p></li>
+<li><p><code>Cookie Policy</code>: отслеживает согласие пользователя на хранение связанной с ним информации в куках</p></li>
+<li><p><code>CORS</code>: обеспечивает поддержку кроссдоменных запросов</p></li>
+<li><p><code>Diagnostics</code>: предоставляет страницы статусных кодов, функционал обработки исключений, страницу исключений разработчика</p></li>
+<li><p><code>Forwarded Headers</code>: перенаправляет зголовки запроса</p></li>
+<li><p><code>Health Check</code>: проверяет работоспособность приложения asp.net core</p></li>
+<li><p><code>HTTP Method Override</code>: позволяет входящему POST-запросу переопределить метод</p></li>
+<li><p><code>HTTPS Redirection</code>: перенаправляет все запросы HTTP на HTTPS</p></li>
+<li><p><code>HTTP Strict Transport Security (HSTS)</code>: для улучшения безопасности приложения добавляет специальный заголовок ответа</p></li>
+<li><p><code>MVC</code>: обеспечивает функционал фреймворка MVC</p></li>
+<li><p><code>Request Localization</code>: обеспечивает поддержку локализации</p></li>
+<li><p><code>Response Caching</code>: позволяет кэшировать результаты запросов</p></li>
+<li><p><code>Response Compression</code>: обеспечивает сжатие ответа клиенту</p></li>
+<li><p><code>URL Rewrite</code>: предоставляет функциональность URL Rewriting</p></li>
+<li><p><code>Endpoint Routing</code>: предоставляет механизм маршрутизации</p></li>
+<li><p><code>Session</code>: предоставляет поддержку сессий</p></li>
+<li><p><code>Static Files</code>: предоставляет поддержку обработки статических файлов</p></li>
+<li><p><code>WebSockets</code>: добавляет поддержку протокола WebSockets</p></li>
+</ul>
+<h3>Жизненный цикл middleware</h3>
+<p>Метод Configure выполняется один раз при создании объекта класса Startup, и компоненты middleware создаются один раз и живут в 
+течение всего жизненного цикла приложения. То есть для последующей обработки запросов используются одни и те же компоненты. Например, определим следующий класс Startup:</p>
+<pre class="brush:c#;">
+public class Startup
+{
+	public void ConfigureServices(IServiceCollection services)
+	{ 
+	}
+
+	public void Configure(IApplicationBuilder app)
+	{
+        int x = 2;
+		app.Run(async (context) =&gt;
+		{
+			x = x * 2;  //  2 * 2 = 4
+			await context.Response.WriteAsync($"Result: {x}");
+		});
+	}
+}
+</pre>
+<p>При запуске приложения мы естественно ожидаем, что браузер выведет число 4 в качестве результата:</p>
+<img src="https://metanit.com/sharp/aspnet5/pics/middlewarelifecycle1.png" alt="Жизненный цикл middleware в ASP.NET Core">
+<p>Однако при последующих запросах мы увидим, что результат переменной х не равен 4.</p>
+<img src="https://metanit.com/sharp/aspnet5/pics/middlewarelifecycle2.png" alt="Жизненный цикл приложения в ASP.NET Core">
+<p>Также стоит отметить, что браузер Google Chrome может посылать два запроса - один собственно к приложению, а другой - к файлу иконки favicon.ico, 
+поэтому в Google Chrome результат может отличаться не 2 раза, а гораздо больше.</p>
+	
+	<div style="margin-top:25px;clear:both;">
+		<style>
+	.metanit-rect { width:100%; height: 250px; }
+	@media(min-width: 500px) { .metanit-rect { max-width: 336px; height: 280px; } }
+	@media(min-width: 760px) { .metanit-rect { max-width: 728px; height: 90px;  } }
+	@media(min-width: 900px) { .metanit-rect { max-width: 336px; height: 280px;  } }
+	@media(min-width: 1100px) { .metanit-rect{ max-width: 728px; height: 90px;} }
+	@media(min-width: 1400px) { .metanit-rect{ max-width: 970px; height: 90px;} }
+	</style>
+	<!-- metanit_rect -->
+	<ins class="adsbygoogle metanit-rect" style="display:inline-block" data-ad-client="ca-pub-3716042175333627" data-ad-slot="3119477283"></ins>
+	<script>
+	(adsbygoogle = window.adsbygoogle || []).push({});
+	</script>
+		</div>
+
+	
+	
+
+	<style>
+	.commentABl { margin: 25px 0px 15px 0px;}
+	@media(min-width: 1000px) { .commentABl { margin: 35px 10px 15px 15px;  } }
+	</style>
+	
+
+		<script>const ap = 1412848380;</script>
+	<script async="" type='text/javascript' src='//metanit.com/js/lisrc4.js'></script>
+	
+	
+	<script type="text/javascript">
+	var disqus_shortname = 'metanitcom';
+	(function() {
+	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	})();
+	</script>
+
+  
+	</div>
+</body>
+
+</html>
